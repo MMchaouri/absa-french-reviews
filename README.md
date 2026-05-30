@@ -3,7 +3,7 @@
 Aspect-Based Sentiment Analysis (ABSA) on French restaurant reviews scraped from TripAdvisor.
 Given a review, the model classifies the expressed opinion on three aspects — **Prix** (price), **Cuisine**, **Service** — into one of four labels: `Positive`, `Négative`, `Neutre`, or `NE` (not expressed).
 
-We compare two approaches: a fine-tuned CamemBERT model and a zero/few-shot LLM via Ollama.
+We compare two approaches: **supervised fine-tuning** of a French PLM (CamemBERT) vs **zero/few-shot prompting** of a general-purpose LLM — an empirical study of when transfer learning outperforms instruction-tuned LLMs on a specialized French NLP task.
 
 ---
 
@@ -46,8 +46,9 @@ CamemBERT (shared encoder)
 ```
 
 - **Encoder**: `almanach/camembert-base` — French BERT, chosen over multilingual mBERT for better French semantic coverage
-- **Multi-head output**: one linear head per aspect, all sharing the same encoder (single forward pass, 3× faster than three independent models)
+- **Multi-task learning**: one linear head per aspect, all sharing the same encoder (single forward pass, 3× faster than three independent models)
 - **Loss**: sum of three CrossEntropyLoss terms, one per aspect
+- **Edge-friendly**: runs fully locally on CPU, no external API dependency
 
 ### Hyperparameters
 

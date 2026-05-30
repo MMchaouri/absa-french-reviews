@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+*.json
+> .gitignore << 'EOF'
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+*.json
+EOF.png

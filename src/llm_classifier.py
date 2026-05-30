@@ -61,9 +61,9 @@ class LLMClassifier:
             base_url=cfg.ollama_url,
             api_key='EMPTY'
         )
-        self.model_name = 'qwen3:1.7b'
+        self.model_name = 'qwen2.5:7b-instruct-q4_K_M'
         self.model_params = {
-            'max_tokens': 150,
+            'max_tokens': 1000,
             'temperature': 0.1,
             'top_p': 0.9,
         }
@@ -93,6 +93,7 @@ class LLMClassifier:
             return {"Prix": "NE", "Cuisine": "NE", "Service": "NE"}
 
     def parse_json_response(self, response: str) -> dict[str, str] | None:
+        response = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL).strip()
         m = re.findall(r"\{[^\{\}]+\}", response, re.DOTALL)
         if m:
             try:

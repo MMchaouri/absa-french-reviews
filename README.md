@@ -13,11 +13,12 @@ Evaluated on the validation split (~600 reviews). Numbers are macro-averaged acr
 
 | Method | Prix acc | Cuisine acc | Service acc | **Macro acc** | **Macro F1** |
 |---|---|---|---|---|---|
-| LLM zero-shot (Qwen2.5-7B-Instruct Q4) | ~70% | ~74% | ~60% | ~65%† | — |
-| LLM 3-shot (Qwen2.5-7B-Instruct Q4) | — | — | — | — | — |
+| LLM zero-shot (Qwen2.5-7B-Instruct Q4) | ~70% | ~74% | ~60% | ~68%† | — |
+| LLM 3-shot (Qwen2.5-7B-Instruct Q4) | ~68% | ~70% | ~54% | ~64%† | — |
 | **CamemBERT fine-tuned** | **86.0%** | **83.8%** | **82.5%** | **84.1%** | **60.4%** |
 
 > † LLM numbers estimated from 50-sample evaluation; full 600-sample run pending.
+> 3-shot slightly underperforms zero-shot, likely due to prompt length interfering with the model's instruction-following on this task.
 
 ![Accuracy by aspect](accuracy_chart.png)
 
@@ -130,4 +131,4 @@ Each row: `Restaurant`, `Note`, `Prix`, `Cuisine`, `Service`, `Avis` (review tex
 
 ## Authors
 
-Mohamed Mchaouri · Duc Khoi Nguyen
+Mohamed Mchaouri · [Duc Khoi Nguyen](https://github.com/DucKhoiNGUYEN)

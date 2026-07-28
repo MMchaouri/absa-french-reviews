@@ -1,9 +1,9 @@
-# French Restaurant Review — Aspect-Based Sentiment Analysis
+# French Restaurant Review - Aspect-Based Sentiment Analysis
 
 Aspect-Based Sentiment Analysis (ABSA) on French restaurant reviews scraped from TripAdvisor.
-Given a review, the model classifies the expressed opinion on three aspects — **Prix** (price), **Cuisine**, **Service** — into one of four labels: `Positive`, `Négative`, `Neutre`, or `NE` (not expressed).
+Given a review, the model classifies the expressed opinion on three aspects, **Prix** (price), **Cuisine**, **Service**, into one of four labels: `Positive`, `Négative`, `Neutre`, or `NE` (not expressed).
 
-We compare two approaches: **supervised fine-tuning** of a French PLM (CamemBERT) vs **zero/few-shot prompting** of a general-purpose LLM — an empirical study of when transfer learning outperforms instruction-tuned LLMs on a specialized French NLP task.
+We compare two approaches: **supervised fine-tuning** of a French PLM (CamemBERT) vs **zero/few-shot prompting** of a general-purpose LLM, an empirical study of when transfer learning outperforms instruction-tuned LLMs on a specialized French NLP task.
 
 ---
 
@@ -13,8 +13,8 @@ Evaluated on the validation split (~600 reviews). Numbers are macro-averaged acr
 
 | Method | Prix acc | Cuisine acc | Service acc | **Macro acc** | **Macro F1** |
 |---|---|---|---|---|---|
-| LLM zero-shot (Qwen2.5-7B-Instruct Q4) | ~70% | ~74% | ~60% | ~68%† | — |
-| LLM 3-shot (Qwen2.5-7B-Instruct Q4) | ~68% | ~70% | ~54% | ~64%† | — |
+| LLM zero-shot (Qwen2.5-7B-Instruct Q4) | ~70% | ~74% | ~60% | ~68%† | - |
+| LLM 3-shot (Qwen2.5-7B-Instruct Q4) | ~68% | ~70% | ~54% | ~64%† | - |
 | **CamemBERT fine-tuned** | **86.0%** | **83.8%** | **82.5%** | **84.1%** | **60.4%** |
 
 > † LLM numbers estimated from 50-sample evaluation; full 600-sample run pending.
@@ -22,7 +22,7 @@ Evaluated on the validation split (~600 reviews). Numbers are macro-averaged acr
 
 ![Accuracy by aspect](accuracy_chart.png)
 
-![Confusion matrices — CamemBERT](confusion_matrices.png)
+![Confusion matrices - CamemBERT](confusion_matrices.png)
 
 ---
 
@@ -45,7 +45,7 @@ CamemBERT (shared encoder)
   Prix    Cuisine  Service
 ```
 
-- **Encoder**: `almanach/camembert-base` — French BERT, chosen over multilingual mBERT for better French semantic coverage
+- **Encoder**: `almanach/camembert-base`, French BERT, chosen over multilingual mBERT for better French semantic coverage
 - **Multi-task learning**: one linear head per aspect, all sharing the same encoder (single forward pass, 3× faster than three independent models)
 - **Loss**: sum of three CrossEntropyLoss terms, one per aspect
 - **Edge-friendly**: runs fully locally on CPU, no external API dependency
@@ -66,11 +66,11 @@ CamemBERT (shared encoder)
 
 Several variants were tested and discarded:
 
-- **max_len 128 → 256**: doubled compute time for +2–3% accuracy — not worth it
+- **max_len 128 → 256**: doubled compute time for +2-3% accuracy, not worth it
 - **Multi-layer heads (Linear → ReLU → Linear)**: no measurable improvement on validation
 - **Linear warmup scheduler**: no gain over constant lr on this dataset size
 - **More epochs**: marginal accuracy gain, significant time cost
-- **Dropout tuning**: 0.1, 0.2, 0.4 all tested — 0.3 gave best stability/performance tradeoff
+- **Dropout tuning**: 0.1, 0.2, 0.4 all tested, 0.3 gave best stability/performance tradeoff
 
 ---
 
